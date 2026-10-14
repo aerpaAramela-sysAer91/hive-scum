@@ -1,0 +1,4405 @@
+/* ==================================================
+   NECROMUNDA HIVE SCUM
+   Estilo: Industrial oscuro / mobile-first
+   ================================================== */
+
+/* ==================================================
+   1. VARIABLES
+   ================================================== */
+:root {
+  --bg-dark: #0f0f0f;
+  --bg-panel: #1a1a1a;
+  --bg-panel-hover: #232323;
+  --bg-elevated: #2a2a2a;
+  --bg-input: #151515;
+
+  --rust: #b45309;
+  --rust-bright: #d97706;
+  --rust-dark: #78350f;
+
+  --red: #b91c1c;
+  --red-bright: #dc2626;
+  --red-dark: #7f1d1d;
+
+  --green: #4d7c0f;
+  --yellow: #eab308;
+  --yellow-bright: #fbbf24;
+
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --text-dim: #6b6b6b;
+
+  --border: #333;
+  --border-accent: #444;
+
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+  --shadow-strong: 0 10px 40px rgba(0, 0, 0, 0.85);
+}
+
+/* ==================================================
+   2. RESET Y BASE
+   ================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(180, 83, 9, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(77, 124, 15, 0.05) 0%, transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.012) 3px,
+      rgba(255, 255, 255, 0.012) 6px
+    );
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
+}
+
+h1, h2, h3,
+.screen-title,
+.modal-header h2 {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ==================================================
+   3. CABECERA
+   ================================================== */
+.hive-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-dark) 100%);
+  border-bottom: 2px solid var(--rust);
+  box-shadow: var(--shadow);
+}
+
+.hive-logo {
+  max-width: 340px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: 
+    drop-shadow(0 0 6px rgba(234, 179, 8, 0.5))
+    drop-shadow(0 0 14px rgba(217, 119, 6, 0.35));
+}
+
+.btn-menu-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 1rem;
+  background: var(--bg-panel);
+  color: var(--rust-bright);
+  border: 1px solid var(--rust-dark);
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  z-index: 100;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.btn-menu-toggle:hover {
+  background: var(--rust-dark);
+  color: #fff;
+  border-color: var(--rust);
+}
+
+/* Cabecera reducida cuando hay banda activa */
+body.in-gang-view .hive-header {
+  padding: 0.5rem 3.5rem 0.5rem 0.75rem;
+  min-height: 52px;
+}
+
+body.in-gang-view .hive-logo {
+  max-width: 180px;
+}
+
+body.in-gang-view .logo-svg {
+  filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.35));
+}
+
+body.in-gang-view .hive-main {
+  padding-top: 1rem;
+}
+
+/* ==================================================
+   4. CONTENIDO PRINCIPAL Y PANTALLAS
+   ================================================== */
+.hive-main {
+  flex: 1;
+  padding: 1.25rem 1rem 2rem;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.screen {
+  display: none !important;
+}
+
+.screen.active {
+  display: block !important;
+}
+
+.screen-title {
+  font-size: 1.75rem;
+  color: var(--rust-bright);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  border-left: 4px solid var(--rust);
+  padding-left: 0.75rem;
+}
+
+.screen-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding-left: 0.9rem;
+}
+
+.placeholder {
+  background: var(--bg-panel);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
+
+/* ==================================================
+   5. BOTONES GENÉRICOS
+   ================================================== */
+.btn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.btn-secondary {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border-color: var(--border-accent);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--rust-bright) 0%, var(--rust-dark) 100%);
+  color: #fff;
+  border-color: #451a03;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, var(--rust) 100%);
+}
+
+.btn-danger {
+  background: linear-gradient(180deg, var(--red-bright) 0%, var(--red-dark) 100%);
+  color: #fff;
+  border-color: #450a0a;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(180deg, #ef4444 0%, var(--red) 100%);
+}
+
+.btn-back {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.5rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.15s ease;
+}
+
+.btn-back:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
+/* ==================================================
+   6. PANTALLA PANDILLAS
+   ================================================== */
+.btn-create {
+  width: 100%;
+  background: linear-gradient(180deg, var(--red-bright) 0%, var(--red-dark) 100%);
+  color: #fff;
+  border: 1px solid #450a0a;
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 4px 12px rgba(185, 28, 28, 0.35);
+  transition: all 0.15s ease;
+  margin-bottom: 1.25rem;
+}
+
+.btn-create:hover {
+  background: linear-gradient(180deg, #ef4444 0%, var(--red) 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 16px rgba(185, 28, 28, 0.5);
+}
+
+.btn-create:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.btn-create-icon {
+  font-size: 1.3rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.gangs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* ---------- Tarjeta de banda ---------- */
+.gang-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--house-color, var(--rust));
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow);
+  animation: card-in 0.25s ease;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gang-card:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--house-color, var(--rust-bright));
+  transform: translateX(2px);
+}
+
+.gang-thumb-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.gang-thumb {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid var(--border-accent);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  color: var(--text-dim);
+  font-size: 2.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gang-thumb.has-image {
+  border-color: var(--house-color, var(--rust));
+}
+
+.gang-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gang-thumb:hover {
+  border-color: var(--house-color, var(--rust-bright));
+  background: var(--bg-panel-hover);
+}
+
+.gang-thumb:hover::after {
+  content: '📷';
+  position: absolute;
+  font-size: 1.6rem;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gang-thumb.has-image:hover::after {
+  content: 'Cambiar';
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 700;
+}
+
+.gang-thumb-delete {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+}
+
+.gang-thumb-delete:hover {
+  color: var(--red-bright);
+  border-color: var(--red-dark);
+  background: var(--bg-elevated);
+}
+
+.gang-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.gang-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.gang-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+
+.gang-house-chip {
+  display: inline-block;
+  background: var(--house-color, var(--rust));
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.gang-rep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.gang-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.gang-delete-btn {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.6rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.gang-delete-btn:hover {
+  color: #fff;
+  background: var(--red-dark);
+  border-color: var(--red);
+}
+
+/* ---------- Estado vacío ---------- */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-dim);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  background: var(--bg-panel);
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.empty-desc {
+  font-size: 0.8rem;
+}
+
+/* ==================================================
+   7. FICHA DE BANDA (DETALLE)
+   ================================================== */
+.gang-detail {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 1.25rem 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.9rem;
+}
+
+.gang-detail-thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--border-accent);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--text-dim);
+  font-size: 2.5rem;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gang-detail-thumb:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.gang-detail-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gang-detail-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+.gang-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.gang-detail-house {
+  display: inline-block;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-accent);
+}
+
+.gang-detail-rep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.gang-detail-credits {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  text-align: center;
+}
+
+.gang-detail-credits strong {
+  color: var(--yellow);
+  font-weight: bold;
+}
+
+.gang-detail-available {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.15rem;
+}
+
+/* ==================================================
+   8. PANEL RESUMEN (banda)
+   ================================================== */
+.gang-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.summary-item {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+.summary-item.ok {
+  border-left: 3px solid var(--green);
+  color: var(--text-primary);
+}
+
+.summary-item.warn {
+  border-left: 3px solid var(--yellow-bright);
+  color: var(--yellow-bright);
+}
+
+/* ==================================================
+   9. AÑADIR LUCHADOR
+   ================================================== */
+.add-fighter-section {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.add-fighter-section h3 {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.add-fighter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn-add-fighter {
+  flex: 1;
+  min-width: 130px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.65rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-add-fighter:hover:not(.disabled) {
+  background: var(--bg-panel-hover);
+  border-color: var(--rust);
+  color: var(--rust-bright);
+}
+
+.btn-add-fighter.disabled,
+.btn-add-fighter:disabled {
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+  border-color: var(--border);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.gang-no-types {
+  width: 100%;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* ==================================================
+   10. TARJETAS DE LUCHADOR
+   ================================================== */
+.fighters-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.fighters-empty {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1rem;
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+}
+
+.fighters-empty-hint {
+  font-size: 0.75rem;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+.fighter-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.7rem 0.8rem;
+}
+
+.fighter-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fighter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fighter-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fighter-name {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.btn-fighter-edit-icon {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.35rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.btn-fighter-edit-icon:hover {
+  background: var(--rust-dark);
+  border-color: var(--rust);
+  color: #fff;
+}
+
+.fighter-type {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid;
+}
+
+/* Colores por tipo de combatiente */
+.fighter-type[data-type="leader"] {
+  background: rgba(127, 29, 29, 0.3);
+  color: #fca5a5;
+  border-color: #991b1b;
+}
+.fighter-type[data-type="leader"]:hover {
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.5);
+}
+
+.fighter-type[data-type="heavy"] {
+  background: rgba(120, 53, 15, 0.3);
+  color: #fcd34d;
+  border-color: #92400e;
+}
+.fighter-type[data-type="heavy"]:hover {
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.5);
+}
+
+.fighter-type[data-type="ganger"] {
+  background: rgba(30, 58, 95, 0.3);
+  color: #93c5fd;
+  border-color: #1e40af;
+}
+.fighter-type[data-type="ganger"]:hover {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.fighter-type[data-type="juve"] {
+  background: rgba(77, 124, 15, 0.3);
+  color: #bef264;
+  border-color: #4d7c0f;
+}
+.fighter-type[data-type="juve"]:hover {
+  box-shadow: 0 0 8px rgba(132, 204, 22, 0.5);
+}
+
+/* ---------- Stats del luchador ---------- */
+.fighter-stats {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.2rem 0.1rem;
+  background: var(--bg-panel);
+  border-radius: 2px;
+}
+
+.stat-label {
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.stat-value {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+/* ---------- Footer tarjeta luchador ---------- */
+.fighter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fighter-cost {
+  font-size: 0.75rem;
+  color: var(--yellow-bright);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.fighter-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.btn-fighter-delete {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-fighter-delete:hover {
+  color: #fff;
+  background: var(--red-dark);
+  border-color: var(--red);
+}
+
+/* ==================================================
+   11. EQUIPO DEL LUCHADOR (en tarjeta)
+   ================================================== */
+.fighter-equipment {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.6rem;
+  background: var(--bg-panel);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 3px;
+}
+
+.fighter-equipment-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4d4d4;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.fighter-equipment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fighter-equipment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.15rem 0.4rem 0.15rem 0.15rem;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.fighter-equipment-item:hover {
+  border-color: var(--rust);
+}
+
+.fighter-equipment-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.72rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.fighter-equipment-main:hover {
+  color: var(--rust-bright);
+  background: var(--bg-panel-hover);
+}
+
+.fighter-equipment-actions-btn {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.fighter-equipment-actions-btn:hover {
+  background: var(--rust-dark);
+  border-color: var(--rust);
+  color: #fff;
+}
+
+.fighter-equipment-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.fighter-equipment-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.fighter-equipment-name {
+  flex: 1;
+  letter-spacing: 0.02em;
+}
+
+.fighter-equipment-cost {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ==================================================
+   12. ALMACÉN DE LA BANDA
+   ================================================== */
+.gang-stash {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--border);
+}
+
+.gang-stash-header {
+  margin-bottom: 0.6rem;
+}
+
+.gang-stash-title {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.stash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stash-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 3px;
+  padding: 0.3rem 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.stash-item:hover {
+  border-left-color: var(--rust-bright);
+}
+
+.stash-item-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.stash-item-main:hover {
+  color: var(--rust-bright);
+  background: var(--bg-panel-hover);
+}
+
+.stash-item-actions-btn {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.stash-item-actions-btn:hover {
+  background: var(--rust-dark);
+  border-color: var(--rust);
+  color: #fff;
+}
+
+.stash-item-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.stash-item-sell {
+  background: var(--red-dark);
+  color: #fff;
+  border: 1px solid var(--red);
+  border-radius: 3px;
+  padding: 0.3rem 0.55rem;
+  font-family: inherit;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.stash-item-sell:hover {
+  background: var(--red-bright);
+}
+
+/* ==================================================
+   13. MODALES
+   ================================================== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-top: 3px solid var(--rust);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+  animation: modal-in 0.2s ease;
+}
+
+.modal-content--narrow {
+  max-width: 380px;
+}
+
+/* El modal del arma necesita ser más ancho por la tabla */
+#modal-weapon .modal-content {
+  max-width: 620px;
+}
+
+@media (max-width: 660px) {
+  #modal-weapon .modal-content {
+    max-width: 100%;
+  }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: 6px 6px 0 0;
+  flex-shrink: 0;
+}
+
+.modal-header h2 {
+  font-size: 1rem;
+  color: var(--rust-bright);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.modal-close:hover {
+  color: var(--red-bright);
+  background: var(--bg-panel);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: 0 0 6px 6px;
+  flex-shrink: 0;
+}
+
+/* ==================================================
+   14. MODAL: SELECCIONAR CASA
+   ================================================== */
+.houses-list {
+  overflow-y: auto;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.house-item {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--house-color, var(--rust));
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+  color: inherit;
+}
+
+.house-item:hover {
+  background: var(--bg-panel-hover);
+  border-left-width: 5px;
+  transform: translateX(2px);
+}
+
+.house-emblem {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  border-radius: 50%;
+  background: var(--house-color, var(--rust));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.house-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.house-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.15rem;
+}
+
+.house-org {
+  font-size: 0.7rem;
+  color: var(--house-color, var(--rust-bright));
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.house-desc {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ==================================================
+   15. MODAL: CONFIRMACIÓN
+   ================================================== */
+.confirm-content {
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.confirm-house-emblem {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--house-color, var(--rust));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 3rem;
+  border: 4px solid rgba(0, 0, 0, 0.5);
+  margin: 0 auto 1rem;
+  box-shadow: 
+    0 0 24px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.confirm-house-name {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.confirm-house-org {
+  font-size: 0.75rem;
+  color: var(--house-color, var(--rust-bright));
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.9rem;
+}
+
+.confirm-house-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.confirm-name-block {
+  padding: 0 1rem 1rem;
+}
+
+.confirm-name-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.confirm-name-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.7rem 0.85rem;
+  letter-spacing: 0.03em;
+  transition: all 0.15s ease;
+}
+
+.confirm-name-input::placeholder {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.confirm-name-input:focus {
+  outline: none;
+  border-color: var(--rust-bright);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+  background: #1a1a1a;
+}
+
+.confirm-name-hint {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+.delete-warning {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.delete-warning strong {
+  color: var(--red-bright);
+}
+
+.delete-sub {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* ==================================================
+   16. MODAL: EDITAR LUCHADOR
+   ================================================== */
+.fighter-modal-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.fighter-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.field-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+}
+
+.field-input::placeholder {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--rust-bright);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+
+/* ==================================================
+   17. MODAL: VER ARMA
+   ================================================== */
+.weapon-modal-title {
+  color: var(--yellow) !important;
+  font-size: 1.1rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+.weapon-modal-body {
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.weapon-image {
+  width: 100%;
+  height: 160px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding: 0.5rem;
+}
+
+.weapon-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.weapon-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-dim);
+}
+
+.weapon-image-placeholder .placeholder-icon {
+  font-size: 2.5rem;
+  opacity: 0.6;
+}
+
+.weapon-image-placeholder .placeholder-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.weapon-modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.weapon-modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.weapon-modal-label {
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.weapon-modal-value {
+  color: var(--yellow);
+  font-weight: bold;
+}
+
+.weapon-modal-profile {
+  overflow-x: auto;
+}
+
+.weapon-profile-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+.weapon-profile-table thead th {
+  background: var(--bg-elevated);
+  color: var(--rust-bright);
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  padding: 0.4rem 0.3rem;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.weapon-profile-table tbody td {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  padding: 0.4rem 0.3rem;
+  border: 1px solid var(--border);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.weapon-profile-table tbody td:first-child {
+  font-weight: bold;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+/* ==================================================
+   18. MENÚ LATERAL (DRAWER)
+   ================================================== */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 998;
+  backdrop-filter: blur(2px);
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--bg-panel);
+  border-left: 2px solid var(--rust);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.7);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-drawer.active {
+  transform: translateX(0);
+}
+
+.menu-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  background: var(--bg-elevated);
+  border-bottom: 2px solid var(--rust);
+}
+
+.menu-drawer-title {
+  font-size: 0.85rem;
+  color: var(--rust-bright);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.menu-drawer-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.menu-drawer-close:hover {
+  color: var(--red-bright);
+  background: var(--bg-panel);
+}
+
+.menu-drawer-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.6rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0.75rem 0.85rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.menu-item:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-accent);
+  color: var(--rust-bright);
+}
+
+.menu-item:active {
+  background: var(--rust-dark);
+  color: #fff;
+}
+
+.menu-item-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  min-width: 1.2rem;
+  text-align: center;
+}
+
+.menu-item-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+/* ==================================================
+   19. RESPONSIVE
+   ================================================== */
+@media (max-width: 480px) {
+  .gang-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .gang-thumb-wrapper {
+    margin-bottom: 0.3rem;
+  }
+
+  .gang-info {
+    align-items: center;
+    width: 100%;
+  }
+
+  .gang-name {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .gang-meta {
+    align-items: center;
+  }
+
+  .gang-actions {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .gang-delete-btn {
+    width: 100%;
+  }
+
+  .gang-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 0.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.5rem;
+  }
+
+  .hive-main {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .house-emblem {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    font-size: 1rem;
+  }
+}
+
+/* ---------- ESCUDOS CON IMAGEN (en lugar del círculo de iniciales) ---------- */
+.house-emblem--img,
+.confirm-house-emblem--img {
+  background: var(--bg-elevated);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.house-emblem--img img,
+.confirm-house-emblem--img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* ==================================================
+   20. EXPERIENCIA Y NIVEL DEL LUCHADOR
+   ================================================== */
+.fighter-xp {
+  background: var(--bg-panel);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fighter-xp-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fighter-xp-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+}
+
+.fighter-xp-pending {
+  font-size: 0.68rem;
+  color: var(--yellow-bright);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.fighter-xp-title {
+  font-size: 0.75rem;
+  color: var(--yellow-bright);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fighter-xp-value {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.fighter-xp-max {
+  font-size: 0.65rem;
+  color: #fff;
+  background: var(--red);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--red-dark);
+}
+
+.fighter-xp-buttons {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.btn-xp {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.25rem 0.6rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-xp:hover {
+  background: var(--rust-dark);
+  border-color: var(--rust);
+  color: #fff;
+}
+/* ---------- BOTÓN SUBIR DE NIVEL ---------- */
+.btn-levelup {
+  background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+  color: #fff;
+  border: 1px solid #14532d;
+  border-radius: 3px;
+  padding: 0.25rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-levelup:hover {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 3px 8px rgba(22, 163, 74, 0.4);
+}
+
+.btn-levelup:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+/* ==================================================
+   21. MODAL DE SUBIDA DE NIVEL
+   ================================================== */
+.advance-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.advance-instruction {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.advance-dice {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--yellow-bright);
+  padding: 0.75rem;
+  background: var(--bg-elevated);
+  border-radius: 4px;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border-accent);
+}
+
+.advance-result-text {
+  background: var(--bg-panel);
+  border-left: 3px solid var(--yellow);
+  border-radius: 3px;
+  padding: 0.75rem;
+}
+
+.advance-info {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.advance-detail {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.advance-detail strong {
+  color: var(--yellow-bright);
+}
+
+.advance-detail.warn {
+  color: var(--yellow-bright);
+}
+
+.advance-table-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.btn-skill-table {
+  flex: 1;
+  min-width: 100px;
+  background: linear-gradient(180deg, var(--rust-bright) 0%, var(--rust-dark) 100%);
+  color: #fff;
+  border: 1px solid #451a03;
+  border-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-skill-table:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, var(--rust) 100%);
+  transform: translateY(-1px);
+}
+
+#btn-advance-apply.disabled,
+#btn-advance-apply:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- HABILIDADES APRENDIDAS EN LA TARJETA ---------- */
+.fighter-skills {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.6rem;
+  background: var(--bg-panel);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 3px;
+}
+
+.fighter-skills-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4d4d4;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.fighter-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.skill-tag {
+  font-size: 0.7rem;
+  background: rgba(30, 58, 95, 0.6);
+  color: #93c5fd;
+  border: 1px solid #1e40af;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.skill-tag:hover {
+  background: rgba(30, 64, 175, 0.8);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+} 
+
+/* ---------- BOTONES DE TIRADA DE AVANCE ---------- */
+.advance-roll-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.advance-roll-buttons .btn {
+  flex: 1;
+  min-width: 130px;
+}
+
+#advance-manual-selector {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#select-advance-result {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+}
+
+#select-advance-result:focus {
+  outline: none;
+  border-color: var(--rust-bright);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+/* ---------- HABILIDADES NATIVAS (diferente color) ---------- */
+.skill-tag--native {
+  background: rgba(30, 58, 95, 0.8);
+  color: #bfdbfe;
+  border-color: #3b82f6;
+}
+
+.skill-tag--native:hover {
+  background: rgba(30, 64, 175, 0.9);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+/* ==================================================
+   22. MODAL DE HABILIDADES
+   ================================================== */
+.skill-modal-body {
+  padding: 1rem;
+}
+
+.skill-modal-desc {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* Tags clicables */
+.skill-tag {
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.skill-tag:hover {
+  background: rgba(124, 58, 237, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.4);
+}
+
+.skill-tag--native:hover {
+  background: rgba(217, 119, 6, 0.6);
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.4);
+}
+/* ==================================================
+   23. STATS AL MÁXIMO
+   ================================================== */
+.stat-max {
+  background: linear-gradient(180deg, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
+  border: 1px solid var(--rust);
+  position: relative;
+}
+
+.stat-max .stat-value {
+  color: var(--yellow-bright);
+  position: relative;
+}
+
+.stat-max-star {
+  color: var(--yellow-bright);
+  font-size: 0.55rem;
+  margin-left: 0.1rem;
+  vertical-align: top;
+  opacity: 0.9;
+}
+/* ==================================================
+   24. TRADING POST (MERCADO)
+   ================================================== */
+.modal-content--wide {
+  max-width: 600px;
+}
+
+.market-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.market-credits-bar {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.market-credits-bar strong {
+  color: var(--yellow-bright);
+  font-size: 1rem;
+}
+
+.market-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.market-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  padding: 0.7rem 1.2rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.market-tab.active {
+  color: var(--rust-bright);
+  border-bottom-color: var(--rust-bright);
+}
+
+.market-tab.disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.market-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.market-category-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.market-category-card:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--rust-bright);
+  transform: translateX(2px);
+}
+
+.market-category-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.market-category-count {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.market-weapons-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.market-weapons-header h3 {
+  font-size: 0.9rem;
+  color: var(--rust-bright);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.market-weapons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.market-weapon-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.market-weapon-card:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--rust-bright);
+  transform: translateX(2px);
+}
+
+.market-weapon-thumb {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.market-weapon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.market-weapon-icon {
+  font-size: 1.3rem;
+}
+
+.market-weapon-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.market-weapon-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.15rem;
+  color: var(--text-primary);
+}
+
+.market-weapon-meta {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.market-weapon-cost {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--yellow-bright);
+  white-space: nowrap;
+}
+
+.market-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-dim);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+}
+
+/* ---------- BOTÓN DE ACCIÓN EN EL MODAL DE ARMA ---------- */
+.weapon-modal-action {
+  padding: 0 1rem 1rem;
+}
+
+.weapon-modal-action .btn {
+  width: 100%;
+}
+
+/* ---------- BOTÓN VENDER EN EL ALMACÉN ---------- */
+.stash-item-sell {
+  background: var(--red-dark);
+  color: #fff;
+  border: 1px solid var(--red);
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stash-item-sell:hover {
+  background: var(--red-bright);
+}
+
+@media (max-width: 480px) {
+  .market-categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ==================================================
+   25. BOTÓN EQUIPAR EN LA TARJETA DEL LUCHADOR
+   ================================================== */
+.fighter-actions-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.btn-fighter-equip {
+  background: #1e3a5f;
+  color: #93c5fd;
+  border: 1px solid #1e40af;
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-fighter-equip:hover {
+  background: #1e40af;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.btn-fighter-equip:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+/* ---------- AJUSTES DE LOS BOTONES DE ACCIÓN DEL LUCHADOR ---------- */
+.fighter-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.btn-fighter-equip {
+  background: linear-gradient(180deg, var(--rust-bright) 0%, var(--rust-dark) 100%);
+  color: #fff;
+  border: 1px solid #451a03;
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-fighter-equip:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, var(--rust) 100%);
+  transform: translateY(-1px);
+}
+/* ==================================================
+   26. MODAL DE ACCIONES DE ARMA
+   ================================================== */
+.weapon-actions-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.weapon-action-btn {
+  width: 100%;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.weapon-action-btn:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--rust);
+  color: var(--rust-bright);
+}
+
+.weapon-action-btn--danger {
+  color: var(--red-bright);
+  border-color: var(--red-dark);
+}
+
+.weapon-action-btn--danger:hover {
+  background: var(--red-dark);
+  color: #fff;
+  border-color: var(--red);
+}
+
+/* ==================================================
+   27. MODAL DE TRANSFERIR
+   ================================================== */
+.transfer-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.transfer-fighter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--house-color, var(--rust));
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.transfer-fighter-btn:hover {
+  background: var(--bg-panel-hover);
+  transform: translateX(2px);
+}
+
+.transfer-fighter-name {
+  flex: 1;
+  font-weight: 700;
+}
+
+.transfer-fighter-type {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.transfer-empty {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--text-dim);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+/* ==================================================
+   28. PANEL DE RONDA
+   ================================================== */
+.gang-round-panel {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.6rem 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.gang-round-panel--creation {
+  border-color: var(--border-accent);
+}
+
+.gang-round-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.gang-round-label {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.gang-round-badge {
+  font-size: 0.62rem;
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.gang-round-btn {
+  background: var(--bg-panel);
+  color: var(--rust-bright);
+  border: 1px solid var(--rust-dark);
+  border-radius: 3px;
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.gang-round-btn:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--rust);
+  color: var(--rust-bright);
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.4);
+}
+/* ==================================================
+   29. TABLA DE PERFIL CON MÚLTIPLES FILAS
+   ================================================== */
+.weapon-profile-table tbody tr:not(:last-child) td {
+  border-bottom: 2px solid var(--bg-panel);
+}
+
+.weapon-profile-table tbody tr:first-child td {
+  font-weight: 600;
+}
+
+/* ---------- CATEGORÍA MUNICIONES ---------- */
+.market-category-card[data-cat="ammo"] {
+  border-left-color: #0891b2;
+}
+/* ==================================================
+   TABLA DE PERFIL DE ARMA
+   ================================================== */
+.weapon-modal-profile {
+  margin-top: 0.5rem;
+  overflow-x: auto;
+}
+
+.weapon-profile-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+}
+
+.weapon-profile-table th,
+.weapon-profile-table td {
+  border: 1px solid var(--border-accent);
+  padding: 0.3rem 0.35rem;
+  text-align: center;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.weapon-profile-table th {
+  background: var(--bg-elevated);
+  color: var(--yellow-bright);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.weapon-profile-table td {
+  background: var(--bg-panel);
+}
+
+.weapon-profile-table td:first-child {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+.weapon-profile-table td:last-child {
+  color: var(--yellow-bright);
+  font-size: 0.62rem;
+  text-align: center;
+}
+/* ==================================================
+   Z-INDEX DE MODALES (para que se apilen bien)
+   ================================================== */
+.modal {
+  z-index: 1000;
+}
+
+/* Modal de habilidades siempre por encima */
+#modal-skill {
+  z-index: 3000 !important;
+}
+
+/* Modal de armas (ficha, comprar, acciones) por encima del Trading Post */
+#modal-weapon {
+  z-index: 2500 !important;
+}
+
+#modal-weapon-actions {
+  z-index: 2600 !important;
+}
+
+#modal-transfer {
+  z-index: 2700 !important;
+}
+
+/* Modal de subida de nivel por encima */
+#modal-advance {
+  z-index: 2400 !important;
+}
+
+/* Modal de reglas de armas siempre por encima */
+#modal-weapon-rule {
+  z-index: 3500 !important;
+}
+
+/* Modal de descripción de habilidad por encima de todo */
+#modal-skill {
+  z-index: 3000 !important;
+}
+/* ==================================================
+   30. CATEGORÍAS NUEVAS DE EQUIPO
+   ================================================== */
+
+/* Colores distintivos por categoría (opcional) */
+.market-category-card[data-cat="sights"] { border-left-color: #06b6d4; }
+.market-category-card[data-cat="tools"] { border-left-color: #65a30d; }
+.market-category-card[data-cat="bionics"] { border-left-color: #a855f7; }
+.market-category-card[data-cat="armor"] { border-left-color: #f59e0b; }
+.market-category-card[data-cat="grenade"] { border-left-color: #dc2626; }
+.market-category-card[data-cat="ammo"] { border-left-color: #0891b2; }
+
+/* ==================================================
+   31. GLOSARIO DE EQUIPO
+   ================================================== */
+.glossary-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- Buscador ---------- */
+.glossary-search-box {
+  margin-bottom: 0.75rem;
+}
+
+.glossary-search-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+}
+
+.glossary-search-input::placeholder {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.glossary-search-input:focus {
+  outline: none;
+  border-color: var(--rust-bright);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+
+/* ---------- Contador de categoría ---------- */
+.market-category-count {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* ---------- Grid de categorías (reutilizamos estilos de market) ---------- */
+#glossary-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+/* ---------- Lista de items ---------- */
+#glossary-items-list,
+#glossary-search-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ---------- Tarjeta de item (reutiliza estilos de market-weapon-card) ---------- */
+#glossary-items-list .market-weapon-card,
+#glossary-search-list .market-weapon-card {
+  cursor: pointer;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  #glossary-categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ==================================================
+   32. PROPIEDADES Y DESCRIPCIÓN DE OBJETOS
+   ================================================== */
+.weapon-modal-extra-info {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Propiedades (clave-valor) ---------- */
+.weapon-properties {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  border-radius: 3px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.weapon-property-row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+}
+
+.weapon-property-row:last-child {
+  border-bottom: none;
+}
+
+.weapon-property-label {
+  color: var(--yellow-bright);
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.weapon-property-value {
+  color: var(--text-primary);
+  flex: 1;
+}
+
+/* ---------- Descripción larga ---------- */
+.weapon-description {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 3px;
+  padding: 0.6rem 0.75rem;
+}
+
+.weapon-description-title {
+  font-size: 0.62rem;
+  color: var(--rust-bright);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.weapon-description-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  white-space: normal;
+}
+/* ==================================================
+   33. STATS MODIFICADAS POR EQUIPO
+   ================================================== */
+.stat-modified-box {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0.05) 100%);
+  border: 1px solid #06b6d4;
+  cursor: pointer;
+}
+
+.stat-modified-box:hover {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.25) 0%, rgba(6, 182, 212, 0.1) 100%);
+}
+
+.stat-modified {
+  color: #ef4444;
+  font-size: 0.55rem;
+  margin-left: 0.1rem;
+  vertical-align: top;
+}
+
+/* ==================================================
+   34. MODAL INFO DE STAT
+   ================================================== */
+.stat-info-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.stat-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.stat-info-base {
+  background: var(--bg-panel);
+  border-left: 3px solid var(--rust);
+}
+
+.stat-info-total {
+  background: var(--bg-panel);
+  border-left: 3px solid #06b6d4;
+  font-weight: 700;
+  margin-top: 0.3rem;
+}
+
+.stat-info-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.stat-info-value {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.stat-mod-bonus { color: #3b82f6; }
+.stat-mod-penalty { color: #ef4444; }
+.stat-mod-override { color: #f59e0b; }
+
+.stat-info-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 2px;
+  background: var(--bg-panel);
+}
+
+.stat-info-mods-title {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.stat-info-empty {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
+}
+/* ==================================================
+   35. PANEL DE VALOR DE BANDA
+   ================================================== */
+.gang-rating-panel {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gang-rating-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.gang-rating-value {
+  font-size: 1.4rem;
+  color: var(--yellow-bright);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 8px rgba(234, 179, 8, 0.3);
+}
+/* ==================================================
+   36. MODAL DE HERIDAS
+   ================================================== */
+.injuries-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.injuries-fighter-name {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.injuries-section-title {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+/* Heridas actuales */
+.injuries-current-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.injuries-empty {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.8rem;
+  padding: 0.75rem;
+  text-align: center;
+  border: 1px dashed var(--border-accent);
+  border-radius: 3px;
+}
+
+.injury-current-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid #dc2626;
+  border-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.injury-current-item--good {
+  border-left-color: #22c55e;
+}
+
+.injury-current-item--minor {
+  border-left-color: #eab308;
+}
+
+.injury-current-item--critical {
+  border-left-color: #7f1d1d;
+  background: linear-gradient(90deg, rgba(127, 29, 29, 0.3) 0%, var(--bg-elevated) 100%);
+}
+
+.injury-remove-btn {
+  background: var(--bg-panel);
+  color: #ef4444;
+  border: 1px solid var(--red-dark);
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.injury-remove-btn:hover {
+  background: var(--red-dark);
+  color: #fff;
+  border-color: var(--red);
+}
+
+/* Añadir herida */
+.injuries-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+
+.injury-add-btn {
+  background: var(--bg-elevated);
+  color: #fca5a5;
+  border: 1px solid #7f1d1d;
+  border-radius: 3px;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.injury-add-btn:hover {
+  background: #7f1d1d;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.injury-add-btn--good {
+  color: #86efac;
+  border-color: #14532d;
+}
+
+.injury-add-btn--good:hover {
+  background: #14532d;
+}
+
+.injury-add-btn--critical {
+  color: #fca5a5;
+  border-color: #450a0a;
+  background: rgba(69, 10, 10, 0.3);
+}
+
+/* Ícono de herida en la tarjeta */
+.btn-fighter-injuries {
+  background: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 100%);
+  color: #fff;
+  border: 1px solid #450a0a;
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-fighter-injuries:hover {
+  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+}
+
+.btn-fighter-injuries--empty {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+.btn-fighter-injuries--empty:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
+@media (max-width: 480px) {
+  .injuries-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ==================================================
+   37. TAGS DE HERIDAS EN LA TARJETA
+   ================================================== */
+.fighter-injuries {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.6rem;
+  background: var(--bg-panel);
+  border-left: 3px solid #b91c1c;
+  border-radius: 3px;
+}
+
+.fighter-injuries-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.fighter-injuries-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.injury-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.injury-tag:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.2);
+}
+
+.injury-tag--minor {
+  background: rgba(127, 29, 29, 0.4);
+  color: #fca5a5;
+  border: 1px solid #991b1b;
+}
+
+.injury-tag--good {
+  background: rgba(127, 29, 29, 0.4);
+  color: #fca5a5;
+  border: 1px solid #991b1b;
+}
+
+.injury-tag--critical {
+  background: rgba(127, 29, 29, 0.4);
+  color: #fca5a5;
+  border: 1px solid #7f1d1d;
+  animation: pulso-critical 2s infinite;
+}
+
+@keyframes pulso-critical {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+/* ==================================================
+   38. MERCADO RARO
+   ================================================== */
+.rare-market-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.rare-market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.rare-market-header strong {
+  color: var(--yellow-bright);
+  font-size: 1rem;
+}
+
+.rare-market-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rare-market-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.rare-market-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.rare-market-control label {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.rare-market-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rare-counter-btn {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.rare-counter-btn:hover {
+  background: var(--rust-dark);
+  color: #fff;
+  border-color: var(--rust);
+}
+
+#rare-market-gangers-count {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--yellow-bright);
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.rare-market-info {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+  text-align: center;
+}
+
+.rare-market-info strong {
+  color: var(--text-primary);
+  font-style: normal;
+}
+
+.rare-market-roll-info {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.rare-market-roll-info strong {
+  color: var(--yellow-bright);
+  font-size: 0.95rem;
+}
+
+.rare-market-offers-title {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.rare-market-offers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rare-market-empty {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--text-dim);
+  border: 1px dashed var(--border-accent);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+.market-weapon-card--missing {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+.market-weapon-card--missing:hover {
+  transform: none;
+  border-left-color: var(--border);
+}
+/* ---------- PESTAÑAS DEL TRADING POST ---------- */
+.market-tab {
+  cursor: pointer;
+}
+
+.market-tab.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+/* ==================================================
+   39. TAGS DE REGLAS DE ARMAS (en la tabla de perfil)
+   ================================================== */
+.weapon-rule-tag {
+  display: inline-block;
+  background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  border: 1px solid #1e3a8a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin: 1px 1px;
+  text-transform: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  white-space: nowrap;
+}
+
+.weapon-rule-tag:hover {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(37, 99, 235, 0.4);
+}
+
+.weapon-rule-tag:active {
+  transform: translateY(0);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.weapon-rule-tag--unknown {
+  background: linear-gradient(180deg, #6b7280 0%, #4b5563 100%);
+  border-color: #374151;
+}
+
+.weapon-rule-tag--unknown:hover {
+  background: linear-gradient(180deg, #9ca3af 0%, #6b7280 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(107, 114, 128, 0.4);
+}
+/* ---------- STATS CON VALOR NULL (Pit Fighter sin HB) ---------- */
+.stat--null {
+  background: var(--bg-dark);
+  opacity: 0.4;
+}
+
+.stat--null .stat-value {
+  color: var(--text-dim);
+}
+/* ---------- CHIP PROSCRITO ---------- */
+.gang-detail-outlaw {
+  display: inline-block;
+  background: #7f1d1d;
+  color: #fca5a5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #991b1b;
+}
+/* ---------- REGLAS DE LA CASA ---------- */
+.btn-house-rules {
+  display: block;
+  width: 100%;
+  background: var(--bg-elevated);
+  color: var(--rust-bright);
+  border: 1px solid var(--rust-dark);
+  border-radius: 3px;
+  padding: 0.6rem 1rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin: 0.75rem 0;
+}
+
+.btn-house-rules:hover {
+  background: var(--rust-dark);
+  color: #fff;
+  border-color: var(--rust);
+}
+
+.house-rule-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 3px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.house-rule-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--rust-bright);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.house-rule-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+#house-rules-body {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+/* ---------- STAT SUBIDA POR AVANCE ---------- */
+.stat-advanced {
+  color: #3b82f6;
+  font-size: 0.55rem;
+  margin-left: 0.1rem;
+  vertical-align: top;
+}
+/* ---------- SALVACIONES COMBINADAS ---------- */
+.stat-info-bionic-tag {
+  display: inline-block;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.stat-info-note {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-style: italic;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-panel);
+  border-left: 3px solid var(--text-dim);
+  border-radius: 3px;
+  margin-top: 0.5rem;
+}
+/* ---------- MODAL: TIPO DE BANDA ---------- */
+.gang-type-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+}
+
+.gang-type-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  overflow: hidden;
+}
+
+.gang-type-card:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--rust);
+}
+
+.gang-type-image {
+  width: 100%;
+  height: 140px;
+  background: var(--bg-dark);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gang-type-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gang-type-info {
+  padding: 0.85rem 1rem;
+}
+
+.gang-type-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.gang-type-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ---------- ETIQUETA DE TIPO DE BANDA ---------- */
+.gang-type-chip {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  border: 1px solid var(--border-accent);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.gang-type-chip--necromunda {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
+.gang-type-chip--proscritos {
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+/* ---------- TARJETA DE BANDA (neutra) ---------- */
+.gang-card {
+  border-left: 3px solid var(--border-accent) !important;
+}
+
+.gang-card:hover {
+  border-left-color: var(--rust) !important;
+}
+
+.gang-house-chip {
+  background: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-accent);
+}
+/* ==================================================
+   TERRITORIOS
+   ================================================== */
+.territories-header {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.territories-gangers-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.territories-gangers-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.territories-gangers-count {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--yellow-bright);
+}
+
+.territories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.territory-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.territory-card--worked {
+  border-left: 4px solid var(--green);
+}
+
+.territory-card-info {
+  flex: 1;
+}
+
+.territory-card-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.2rem;
+}
+
+.territory-card-income {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.territory-card-income strong {
+  color: var(--yellow-bright);
+}
+
+.territory-card-worker {
+  font-size: 0.7rem;
+  color: var(--green);
+  margin-top: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.territory-card-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-territory-work {
+  background: var(--bg-panel);
+  color: var(--rust-bright);
+  border: 1px solid var(--rust-dark);
+  border-radius: 3px;
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-territory-work:hover {
+  background: var(--rust-dark);
+  color: #fff;
+  border-color: var(--rust);
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+}
+
+.btn-territory-work:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-territory-detail {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.4rem 0.6rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-territory-detail:hover {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
+.territories-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.territories-actions .btn {
+  max-width: 300px;
+  width: 100%;
+}
+
+.territories-actions .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.territories-summary {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-left: 4px solid var(--green);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+/* Modal worker */
+.territory-worker-body {
+  padding: 1rem;
+}
+
+.territory-worker-info {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.territory-worker-info strong {
+  color: var(--rust-bright);
+}
+
+.territory-worker-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.territory-worker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.territory-worker-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.6rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.territory-worker-btn:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--rust);
+}
+
+.territory-worker-btn-name {
+  font-weight: 700;
+}
+
+.territory-worker-btn-type {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Modal resumen income */
+.income-summary-body {
+  padding: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.income-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.income-summary-row-label {
+  color: var(--text-primary);
+}
+
+.income-summary-row-value {
+  color: var(--yellow-bright);
+  font-weight: 700;
+}
+
+.income-summary-total {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-left: 4px solid var(--green);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.income-summary-total-label {
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.income-summary-total-value {
+  color: var(--green);
+  font-size: 1.3rem;
+}
+
+.income-summary-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+/* ---------- CONTROLES DE CRÉDITOS ---------- */
+.gang-credits-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-credits-minus,
+.btn-credits-plus {
+  flex: 1;
+  max-width: 100px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-credits-minus {
+  color: #fca5a5;
+  border-color: #991b1b;
+}
+
+.btn-credits-plus {
+  color: #86efac;
+  border-color: #14532d;
+}
+
+.btn-credits-minus:hover {
+  background: rgba(153, 27, 27, 0.4);
+  color: #fff;
+}
+
+.btn-credits-plus:hover {
+  background: rgba(22, 163, 74, 0.4);
+  color: #fff;
+}
+/* ---------- CONTROLES DE CRÉDITOS ---------- */
+.gang-credits-controls {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-credits-open {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-credits-open:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--rust);
+  color: var(--rust-bright);
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+}
+
+/* Modal de créditos */
+.credits-modal-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.credits-modal-info {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.credits-modal-info strong {
+  color: var(--yellow-bright);
+}
+
+.credits-modal-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.territory-card-info {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.territory-card-info:hover {
+  opacity: 0.8;
+}
+/* ---------- REGLAS DE PERFILES DE ARMA (DEBAJO DE LA TABLA) ---------- */
+.weapon-profile-rules {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  border-radius: 3px;
+}
+
+.weapon-profile-rules-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--rust-bright);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.weapon-profile-rules-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.weapon-profile-rules-row:last-child {
+  border-bottom: none;
+}
+
+.weapon-profile-rules-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.weapon-profile-rules-value {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+/* ---------- BOTONES DE AÑADIR TERRITORIO ---------- */
+.territories-add-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-territory-add {
+  flex: 1;
+  background: var(--bg-elevated);
+  color: var(--rust-bright);
+  border: 1px solid var(--rust-dark);
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-territory-add:hover {
+  background: var(--rust-dark);
+  color: #fff;
+  border-color: var(--rust);
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+}
+
+/* ---------- BOTÓN QUITAR TERRITORIO ---------- */
+.btn-territory-remove {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.4rem 0.6rem;
+  font-family: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-territory-remove:hover {
+  color: #fff;
+  background: var(--red-dark);
+  border-color: var(--red);
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.5);
+}
+
+/* ---------- MODO CONSULTA (botones de trabajo bloqueados) ---------- */
+.territories-consult-mode .btn-territory-work {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.territories-consult-mode .btn-territory-work::after {
+  content: '';
+}
+
+.territories-consult-mode-note {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.75rem;
+  color: #93c5fd;
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- MODAL: AÑADIR TERRITORIO ---------- */
+.add-territory-body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.add-territory-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.add-territory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.btn-add-territory-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-add-territory-item:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--rust);
+}
+
+.btn-add-territory-item .territory-name {
+  flex: 1;
+  font-weight: 700;
+}
+
+.btn-add-territory-item .territory-income {
+  font-size: 0.72rem;
+  color: var(--yellow-bright);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+/* ---------- MODAL: ÚNICA EN UN MILLÓN ---------- */
+.one-in-a-million-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.one-in-a-million-info {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  border-radius: 3px;
+  padding: 0.6rem 0.85rem;
+}
+
+.one-in-a-million-instruction {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+#oiam-step-roll {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+#btn-oiam-roll {
+  padding: 0.75rem 2rem;
+  font-size: 0.9rem;
+}
+
+.oiam-roll-result {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-left: 3px solid var(--yellow);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.oiam-roll-result p {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.oiam-roll-result p:last-child {
+  margin-bottom: 0;
+}
+
+.oiam-roll-result strong {
+  color: var(--yellow-bright);
+  font-size: 1rem;
+}
+
+.oiam-weapons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.btn-oiam-weapon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-oiam-weapon:hover {
+  background: var(--bg-panel-hover);
+  border-left-color: var(--yellow);
+  box-shadow: 0 0 8px rgba(234, 179, 8, 0.3);
+}
+
+.btn-oiam-weapon .oiam-weapon-name {
+  flex: 1;
+  font-weight: 700;
+}
+
+.btn-oiam-weapon .oiam-weapon-cost {
+  font-size: 0.72rem;
+  color: var(--yellow-bright);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}

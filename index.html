@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f0f0f">
+  <title>Necromunda Hive Scum</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ CABECERA CON LOGO ============ -->
+  <header class="hive-header">
+    <button id="btn-menu-toggle" class="btn-menu-toggle" title="Menú">
+      ☰
+    </button>
+    <div class="hive-logo">
+      <img src="assets/img/logo.png" alt="Necromunda Hive Scum" class="logo-img">
+    </div>
+  </header>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============ -->
+  <main class="hive-main">
+
+    <!-- PANTALLA: LISTA DE PANDILLAS -->
+    <section id="screen-gangs" class="screen active">
+
+      <button id="btn-create-gang" class="btn-create">
+        <span class="btn-create-icon">+</span>
+        Crear nueva banda
+      </button>
+
+      <div id="gangs-list" class="gangs-list"></div>
+
+      <div id="gangs-empty" class="empty-state">
+        <div class="empty-icon">⚙</div>
+        <p class="empty-title">No hay bandas todavía</p>
+        <p class="empty-desc">Pulsa "Crear nueva banda" para empezar tu campaña</p>
+      </div>
+
+    </section>
+
+    <!-- PANTALLA: DETALLE DE BANDA -->
+    <section id="screen-gang-detail" class="screen">
+      <button id="btn-back-to-gangs" class="btn-back">← Volver a pandillas</button>
+      <div id="gang-detail-content" class="gang-detail"></div>
+    </section>
+
+    <!-- PANTALLA: HIRED GUNS -->
+    <section id="screen-hired-guns" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🏴 Hired Guns</h2>
+      <p class="screen-desc">Contrata mercenarios para reforzar tu banda.</p>
+      <div class="placeholder">
+        <p>🚧 Próximamente: contratación de mercenarios</p>
+      </div>
+    </section>
+
+    <!-- PANTALLA: CASINO -->
+    <section id="screen-casino" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🎰 Casino</h2>
+      <p class="screen-desc">Apuesta tus créditos y multiplica tu fortuna.</p>
+      <div class="placeholder">
+        <p>🚧 Próximamente: juegos de apuestas</p>
+      </div>
+    </section>
+
+    <!-- PANTALLA: ALMACÉN -->
+    <section id="screen-almacen" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🎒 Almacén</h2>
+      <p class="screen-desc">Inventario común de la banda.</p>
+      <div id="almacen-content"></div>
+    </section>
+
+           <!-- PANTALLA: TERRITORIOS -->
+    <section id="screen-territorios" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🗺 Territorios</h2>
+      <p class="screen-desc">Controla territorios y genera ingresos.</p>
+
+      <div class="territories-header">
+        <div class="territories-gangers-info">
+          <span class="territories-gangers-label">Gangers disponibles:</span>
+          <span id="territories-gangers-count" class="territories-gangers-count">0</span>
+        </div>
+      </div>
+
+      <div class="territories-add-buttons">
+        <button id="btn-add-random-territory" class="btn-territory-add">
+          + Añadir aleatorio (D66)
+        </button>
+        <button id="btn-add-manual-territory" class="btn-territory-add">
+          + Añadir manual
+        </button>
+      </div>
+
+      <div id="territories-list" class="territories-list"></div>
+
+      <div class="territories-actions">
+        <button id="btn-collect-income" class="btn btn-primary" disabled>
+          Recoger income
+        </button>
+      </div>
+
+      <div id="territories-summary" class="territories-summary" style="display:none;"></div>
+    </section>
+
+    <!-- PANTALLA: TRADING POST -->
+    <section id="screen-trading-post" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🏪 Trading Post</h2>
+      <p class="screen-desc">Compra armas y equipo para tu banda.</p>
+      <div class="placeholder">
+        <p>🚧 Próximamente: mercado de armas</p>
+      </div>
+    </section>
+
+    <!-- PANTALLA: MASCOTAS -->
+    <section id="screen-mascotas" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">🐾 Mascotas</h2>
+      <p class="screen-desc">Animales y criaturas que acompañan a tu banda.</p>
+      <div class="placeholder">
+        <p>🚧 Próximamente: gestión de mascotas</p>
+      </div>
+    </section>
+
+    <!-- PANTALLA: GLOSARIO -->
+    <section id="screen-glosario" class="screen">
+      <button class="btn-back" data-back-to-gang>← Volver</button>
+      <h2 class="screen-title">📖 Glosario</h2>
+      <p class="screen-desc">Términos, reglas y conceptos de NCE.</p>
+      <div class="placeholder">
+        <p>🚧 Próximamente: glosario de términos</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ DRAWER MENÚ LATERAL ============ -->
+  <div id="menu-overlay" class="menu-overlay"></div>
+  <aside id="menu-drawer" class="menu-drawer">
+    <div class="menu-drawer-header">
+      <span class="menu-drawer-title">Menú</span>
+      <button id="btn-menu-close" class="menu-drawer-close" title="Cerrar">✕</button>
+    </div>
+        <nav class="menu-drawer-nav">
+      <button class="menu-item" data-screen="screen-hired-guns">
+      <button class="menu-item" data-screen="screen-hired-guns">
+        <span class="menu-item-icon">🏴</span>
+        <span class="menu-item-label">Hired Guns</span>
+      </button>
+      <button class="menu-item" data-screen="screen-casino">
+        <span class="menu-item-icon">🎰</span>
+        <span class="menu-item-label">Casino</span>
+      </button>
+      <button class="menu-item" data-screen="screen-almacen">
+        <span class="menu-item-icon">🎒</span>
+        <span class="menu-item-label">Almacén</span>
+      </button>
+      <button class="menu-item" data-screen="screen-territorios">
+        <span class="menu-item-icon">🗺</span>
+        <span class="menu-item-label">Territorios</span>
+      </button>
+      <button class="menu-item" data-screen="screen-trading-post">
+        <span class="menu-item-icon">🏪</span>
+        <span class="menu-item-label">Trading Post</span>
+      </button>
+      <button class="menu-item" data-screen="screen-mascotas">
+        <span class="menu-item-icon">🐾</span>
+        <span class="menu-item-label">Mascotas</span>
+      </button>
+      <button class="menu-item" data-screen="screen-glosario">
+        <span class="menu-item-icon">📖</span>
+        <span class="menu-item-label">Glosario</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MODAL: SELECCIONAR TIPO DE BANDA -->
+<div id="modal-gang-type" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>¿Qué tipo de banda quieres?</h2>
+      <button class="modal-close" data-close="modal-gang-type">X</button>
+    </div>
+    <div class="gang-type-list">
+
+      <button class="gang-type-card" data-gang-type="necromunda">
+        <div class="gang-type-image">
+          <img src="assets/img/books/necromunda.jpg" alt="Necromunda">
+        </div>
+        <div class="gang-type-info">
+          <div class="gang-type-name">NECROMUNDA</div>
+          <div class="gang-type-desc">
+           Los señores feudales del subsuelo. Representan a las seis grandes familias nobles que extraen la riqueza del planeta. Son ejércitos disciplinados y equipados por la industria pesada de sus colosales distritos fabriles, atrapados en una guerra eterna de sabotajes y orgullo familiar por el favor de los Gobernadores Imperiales.          </div>
+        </div>
+      </button>
+
+      <button class="gang-type-card" data-gang-type="proscritos">
+        <div class="gang-type-image">
+          <img src="assets/img/books/proscritos.jpg" alt="Proscritos">
+        </div>
+        <div class="gang-type-info">
+          <div class="gang-type-name">PROSCRITOS</div>
+          <div class="gang-type-desc">
+         Los olvidados, los rebeldes y los malditos. Supervivientes que han roto sus cadenas, mutantes repudiados por la civilización y criminales peligrosos que huyen de la justicia de los Gremios. Viven en los desiertos radiactivos de ceniza y en las ruinas más profundas del planeta, donde la única ley es la del más fuerte.          </div>
+        </div>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+  <!-- ============ MODAL: SELECCIONAR CASA ============ -->
+<div id="modal-houses" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Selecciona una casa</h2>
+      <button class="modal-close" data-close="modal-houses">X</button>
+    </div>
+    <div id="houses-list" class="houses-list"></div>
+    <div class="confirm-actions">
+      <button id="btn-houses-back" class="btn btn-secondary">Volver</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ============ MODAL: CONFIRMACIÓN ============ -->
+  <div id="modal-confirm" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2>Confirmar casa</h2>
+        <button class="modal-close" data-close="modal-confirm">✕</button>
+      </div>
+      <div id="confirm-content" class="confirm-content"></div>
+      
+      <div class="confirm-name-block">
+        <label for="input-gang-name" class="confirm-name-label">Nombre de la banda</label>
+        <input 
+          type="text" 
+          id="input-gang-name" 
+          class="confirm-name-input" 
+          placeholder="Nueva Banda" 
+          maxlength="40"
+          autocomplete="off"
+        >
+        <p class="confirm-name-hint">Si lo dejas vacío, se llamará "Nueva Banda"</p>
+      </div>
+
+      <div class="confirm-actions">
+        <button id="btn-confirm-back" class="btn btn-secondary">← Volver</button>
+        <button id="btn-confirm-yes" class="btn btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL: ÚNICA EN UN MILLÓN -->
+  <div id="modal-one-in-a-million" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>Única en un Millón</h2>
+        <button class="modal-close" data-close="modal-one-in-a-million">X</button>
+      </div>
+      <div class="one-in-a-million-body">
+        <p class="one-in-a-million-info">
+          Un arma única en un millón: fabricada con los mejores materiales y las tolerancias más exigentes. Pasa automáticamente cualquier tirada de Munición.
+        </p>
+        
+        <!-- Paso 1: Tirar D6 -->
+        <div id="oiam-step-roll">
+          <p class="one-in-a-million-instruction">Tira 1D6 para saber qué categoría de arma se te ofrece:</p>
+          <button id="btn-oiam-roll" class="btn btn-primary">
+            Tirar D6
+          </button>
+        </div>
+
+        <!-- Paso 2: Resultado + elegir arma -->
+        <div id="oiam-step-choose" style="display:none;">
+          <div class="oiam-roll-result">
+            <p>Resultado: <strong id="oiam-d6-result">—</strong></p>
+            <p>Categoría: <strong id="oiam-category-name">—</strong></p>
+          </div>
+          <p class="one-in-a-million-instruction">Elige el arma base:</p>
+          <div id="oiam-weapons-list" class="oiam-weapons-list"></div>
+        </div>
+
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-one-in-a-million">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  
+    <!-- MODAL: ELEGIR TERRITORIO MANUALMENTE -->
+  <div id="modal-add-territory" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>Añadir territorio</h2>
+        <button class="modal-close" data-close="modal-add-territory">X</button>
+      </div>
+      <div class="add-territory-body">
+        <p class="add-territory-hint">
+          Elige qué territorio quieres añadir a tu banda.
+        </p>
+        <div id="add-territory-list" class="add-territory-list"></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-add-territory">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL: MODIFICAR CRÉDITOS -->
+  <div id="modal-credits" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2>Modificar créditos</h2>
+        <button class="modal-close" data-close="modal-credits">X</button>
+      </div>
+      <div class="credits-modal-body">
+        <p class="credits-modal-info">
+          Créditos actuales: <strong id="credits-modal-current">0</strong>
+        </p>
+        <p class="credits-modal-hint">
+          Escribe la cantidad. Positivo para sumar, negativo para restar.
+        </p>
+        <input 
+          type="number" 
+          id="input-credits-amount" 
+          class="field-input" 
+          placeholder="Ej: 50 o -30" 
+          autocomplete="off"
+        >
+      </div>
+      <div class="confirm-actions">
+        <button id="btn-credits-cancel" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-credits-apply" class="btn btn-primary">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: CONFIRMAR BORRADO ============ -->
+  <div id="modal-delete" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2>Borrar banda</h2>
+      </div>
+      <div class="confirm-content">
+        <p class="delete-warning">¿Seguro que quieres borrar la banda <strong id="delete-gang-name"></strong>?</p>
+        <p class="delete-sub">Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="confirm-actions">
+        <button id="btn-delete-cancel" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-delete-yes" class="btn btn-danger">Borrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: EDITAR LUCHADOR ============ -->
+  <div id="modal-fighter" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="fighter-modal-title">Editar luchador</h2>
+        <button class="modal-close" data-close="modal-fighter">✕</button>
+      </div>
+
+      <div class="fighter-modal-body">
+        <div class="fighter-modal-field">
+          <label for="input-fighter-name" class="field-label">Nombre</label>
+          <input type="text" id="input-fighter-name" class="field-input" 
+                 placeholder="Ej: Kruger el Sanguinario" maxlength="40" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="confirm-actions">
+        <button id="btn-fighter-cancel" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-fighter-save" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: GLOSARIO ============ -->
+  <div id="modal-glossary" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>📖 Glosario de Equipo</h2>
+        <button class="modal-close" data-close="modal-glossary">✕</button>
+      </div>
+
+      <div class="glossary-body">
+        <!-- Vista: CATEGORÍAS -->
+        <div id="glossary-categories-view">
+          <div class="glossary-search-box">
+            <input type="text" id="glossary-search" class="glossary-search-input" 
+                   placeholder="🔍 Buscar por nombre..." autocomplete="off">
+          </div>
+          <div id="glossary-categories-grid" class="market-categories-grid"></div>
+        </div>
+
+        <!-- Vista: ITEMS DE UNA CATEGORÍA -->
+        <div id="glossary-items-view" style="display:none;">
+          <div class="market-weapons-header">
+            <button id="btn-glossary-back" class="btn-back">← Volver</button>
+            <h3 id="glossary-items-title">Categoría</h3>
+          </div>
+          <div id="glossary-items-list" class="market-weapons-list"></div>
+        </div>
+
+        <!-- Vista: RESULTADOS DE BÚSQUEDA -->
+        <div id="glossary-search-view" style="display:none;">
+          <div class="market-weapons-header">
+            <button id="btn-glossary-search-back" class="btn-back">← Volver</button>
+            <h3 id="glossary-search-title">Resultados</h3>
+          </div>
+          <div id="glossary-search-list" class="market-weapons-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: TRADING POST (con pestañas Básicos/Raros) ============ -->
+  <div id="modal-market" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>🏪 Puesto de Comercio</h2>
+        <button class="modal-close" data-close="modal-market">✕</button>
+      </div>
+
+      <div class="market-body">
+        <!-- Cabecera de créditos -->
+        <div class="market-credits-bar">
+          <span>💰 Créditos disponibles: <strong id="market-credits">0</strong></span>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="market-tabs">
+          <button id="tab-basics" class="market-tab active" data-tab="basics">Básicos</button>
+          <button id="tab-rares" class="market-tab" data-tab="rares">Raros</button>
+        </div>
+
+        <!-- Vista: CATEGORÍAS (básicos) -->
+        <div id="market-categories-view">
+          <div id="market-categories-grid" class="market-categories-grid"></div>
+        </div>
+
+        <!-- Vista: ARMAS DE UNA CATEGORÍA (básicos) -->
+        <div id="market-weapons-view" style="display:none;">
+          <div class="market-weapons-header">
+            <button id="btn-market-back" class="btn-back">← Volver</button>
+            <h3 id="market-weapons-title">Categoría</h3>
+          </div>
+          <div id="market-weapons-list" class="market-weapons-list"></div>
+        </div>
+
+        <!-- Vista: MERCADO RARO -->
+        <div id="market-rares-view" style="display:none;">
+          <!-- Intro con contador de pandilleros -->
+          <div id="rare-market-intro" class="rare-market-intro">
+            <p class="rare-market-desc">Antes de buscar objetos raros, decide cuántos pandilleros envías a buscar.</p>
+            <p class="rare-market-desc">Cada pandillero suma <strong>+1 objeto raro</strong> a la oferta.</p>
+
+            <div class="rare-market-control">
+              <label for="rare-market-gangers">Pandilleros enviados:</label>
+              <div class="rare-market-counter">
+                <button id="rare-gangers-minus" class="rare-counter-btn">−</button>
+                <span id="rare-market-gangers-count">0</span>
+                <button id="rare-gangers-plus" class="rare-counter-btn">+</button>
+              </div>
+            </div>
+
+            <p class="rare-market-info">
+              Objetos ofrecidos: <strong id="rare-market-total">(1D3 + 0 pandillero(s))</strong>
+            </p>
+
+            <button id="btn-rare-roll" class="btn btn-primary">🎲 Tirar D3 y ver ofertas</button>
+          </div>
+
+          <!-- Resultado -->
+          <div id="rare-market-result" style="display:none;">
+            <div class="rare-market-roll-info">
+              Tirada D3: <strong id="rare-market-d3">—</strong> + Pandilleros: <strong id="rare-market-gangers-result">0</strong> = <strong id="rare-market-offers-count">0</strong> objetos ofrecidos
+            </div>
+
+            <div class="rare-market-offers-title">Ofertas de esta ronda:</div>
+            <div id="rare-market-offers-list" class="rare-market-offers-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: DESCRIPCIÓN DE HERIDA ============ -->
+  <div id="modal-injury-desc" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="injury-desc-title">Herida</h2>
+        <button class="modal-close" data-close="modal-injury-desc">✕</button>
+      </div>
+      <div id="injury-desc-body" class="stat-info-body">
+        <!-- Se rellena con JS -->
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-injury-desc">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: HERIDAS ============ -->
+  <div id="modal-injuries" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>🩸 Heridas</h2>
+        <button class="modal-close" data-close="modal-injuries">✕</button>
+      </div>
+
+      <div class="injuries-body">
+        <!-- Cabecera con luchador -->
+        <div class="injuries-fighter-name" id="injuries-fighter-name"></div>
+
+        <!-- Lista de heridas actuales -->
+        <div id="injuries-current-section">
+          <div class="injuries-section-title">Heridas actuales (<span id="injuries-count">0</span>)</div>
+          <div id="injuries-current-list" class="injuries-current-list"></div>
+        </div>
+
+        <!-- Añadir nueva herida -->
+        <div class="injuries-section-title">Añadir nueva herida</div>
+        <div id="injuries-available-list" class="injuries-grid"></div>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-injuries">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: INFO DE STAT MODIFICADA ============ -->
+  <div id="modal-stat-info" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="stat-info-title">Característica</h2>
+        <button class="modal-close" data-close="modal-stat-info">✕</button>
+      </div>
+      <div id="stat-info-body" class="stat-info-body">
+        <!-- Se rellena con JS -->
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-stat-info">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- ============ MODAL: DESCRIPCIÓN DE REGLA DE ARMA ============ -->
+  <div id="modal-weapon-rule" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="weapon-rule-modal-title">Regla de arma</h2>
+        <button class="modal-close" data-close="modal-weapon-rule">✕</button>
+      </div>
+      <div id="weapon-rule-modal-body" class="skill-modal-body">
+        <p id="weapon-rule-modal-desc" class="skill-modal-desc"></p>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-weapon-rule">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: DESCRIPCIÓN DE HABILIDAD ============ -->
+  <div id="modal-skill" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="skill-modal-title">Habilidad</h2>
+        <button class="modal-close" data-close="modal-skill">✕</button>
+      </div>
+      <div class="skill-modal-body">
+        <p id="skill-modal-desc" class="skill-modal-desc"></p>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-skill">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: SUBIDA DE NIVEL ============ -->
+  <div id="modal-advance" class="modal" data-fighter-id="">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="advance-title">Subida de nivel</h2>
+        <button class="modal-close" data-close="modal-advance">✕</button>
+      </div>
+
+      <div class="advance-body">
+        <!-- PASO 1: Tirar dados -->
+        <div id="advance-step-roll">
+          <p class="advance-instruction">Elige cómo obtener el resultado del avance:</p>
+          <div class="advance-roll-buttons">
+            <button id="btn-advance-roll" class="btn btn-primary">🎲 Tirar 2D6</button>
+            <button id="btn-advance-manual" class="btn btn-secondary">📋 Elegir manual</button>
+          </div>
+          <div id="advance-manual-selector" style="display:none;">
+            <label for="select-advance-result" class="field-label">Resultado de 2D6:</label>
+            <select id="select-advance-result" class="field-input">
+              <option value="">— Elige un resultado —</option>
+              <option value="2">2 — Nueva habilidad (cualquier tabla)</option>
+              <option value="3">3 — Nueva habilidad (tabla de la casa)</option>
+              <option value="4">4 — Nueva habilidad (tabla de la casa)</option>
+              <option value="5">5 — +1 Fuerza o +1 Ataques</option>
+              <option value="6">6 — +1 HA o +1 HB</option>
+              <option value="7">7 — +1 Iniciativa o +1 Liderazgo</option>
+              <option value="8">8 — +1 HA o +1 HB</option>
+              <option value="9">9 — +1 Heridas o +1 Resistencia</option>
+              <option value="10">10 — Nueva habilidad (tabla de la casa)</option>
+              <option value="11">11 — Nueva habilidad (tabla de la casa)</option>
+              <option value="12">12 — Nueva habilidad (cualquier tabla)</option>
+            </select>
+            <button id="btn-advance-manual-confirm" class="btn btn-primary">Confirmar resultado</button>
+          </div>
+        </div>
+
+        <!-- PASO 2: Resultado -->
+        <div id="advance-step-result" style="display:none;">
+          <div id="advance-dice" class="advance-dice">—</div>
+          <div id="advance-result-text" class="advance-result-text"></div>
+        </div>
+
+        <!-- PASO 3: Aplicar -->
+        <div id="advance-step-action" style="display:none;">
+          <button id="btn-advance-apply" class="btn btn-primary disabled" disabled>Aplicar avance</button>
+        </div>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-advance">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: ACCIONES DE ARMA ============ -->
+  <div id="modal-weapon-actions" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="weapon-actions-title">Arma</h2>
+        <button class="modal-close" data-close="modal-weapon-actions">✕</button>
+      </div>
+
+      <div class="weapon-actions-body">
+        <button id="btn-action-transfer" class="weapon-action-btn" style="display:none;">
+          👤 Transferir a un combatiente
+        </button>
+        <button id="btn-action-transfer-fighter" class="weapon-action-btn" style="display:none;">
+          🔄 Transferir a otro combatiente
+        </button>
+        <button id="btn-action-to-stash" class="weapon-action-btn" style="display:none;">
+          📦 Mover al inventario
+        </button>
+        <button id="btn-action-sell" class="weapon-action-btn">
+          💰 Vender por <span id="weapon-action-sell-price">13c</span>
+        </button>
+        <button id="btn-action-remove" class="weapon-action-btn weapon-action-btn--danger">
+          🗑 Quitar sin más
+        </button>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-weapon-actions">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: TRANSFERIR ARMA ============ -->
+  <div id="modal-transfer" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2>Transferir a...</h2>
+        <button class="modal-close" data-close="modal-transfer">✕</button>
+      </div>
+
+      <div id="transfer-body" class="transfer-body">
+        <!-- Se rellena con la lista de luchadores -->
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-transfer">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: VER ARMA ============ -->
+  <div id="modal-weapon" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="weapon-modal-title" class="weapon-modal-title">Arma</h2>
+        <button class="modal-close" data-close="modal-weapon">✕</button>
+      </div>
+
+      <div class="weapon-modal-body">
+        <div id="weapon-modal-image" class="weapon-image">
+          <!-- Placeholder o imagen real -->
+        </div>
+
+        <div class="weapon-modal-info">
+          <div class="weapon-modal-row">
+            <span class="weapon-modal-label">Coste:</span>
+            <span id="weapon-modal-cost" class="weapon-modal-value">Gratis</span>
+          </div>
+          <div class="weapon-modal-row">
+            <span class="weapon-modal-label">Rareza:</span>
+            <span id="weapon-modal-rarity" class="weapon-modal-value">—</span>
+          </div>
+        </div>
+
+        <div class="weapon-modal-profile">
+          <table class="weapon-profile-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Perfil</th>
+                <th colspan="2">Rango</th>
+                <th colspan="2">Impacto</th>
+                <th rowspan="2">F</th>
+                <th rowspan="2">PA</th>
+                <th rowspan="2">D</th>
+                <th rowspan="2">Mn</th>
+                <th rowspan="2">Reglas</th>
+              </tr>
+              <tr>
+                <th>C</th>
+                <th>L</th>
+                <th>C</th>
+                <th>L</th>
+              </tr>
+            </thead>
+            <tbody id="weapon-profile-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="weapon-modal-action" class="weapon-modal-action" style="display:none;">
+        <button id="btn-weapon-action" class="btn btn-primary">Acción</button>
+      </div>
+
+      <div class="confirm-actions">
+        <button id="btn-weapon-close" class="btn btn-secondary">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL: ELEGIR GANGER PARA TRABAJAR TERRITORIO -->
+  <div id="modal-territory-worker" class="modal">
+    <div class="modal-content modal-content--narrow">
+      <div class="modal-header">
+        <h2 id="territory-worker-title">Elegir Ganger</h2>
+        <button class="modal-close" data-close="modal-territory-worker">X</button>
+      </div>
+      <div class="territory-worker-body">
+        <p class="territory-worker-info">
+          Territorio: <strong id="territory-worker-name">—</strong>
+        </p>
+        <p class="territory-worker-hint">Elige el Ganger que va a trabajar este territorio:</p>
+        <div id="territory-worker-list" class="territory-worker-list"></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" data-close="modal-territory-worker">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RECOGER INCOME (RESUMEN) -->
+  <div id="modal-income-summary" class="modal">
+    <div class="modal-content modal-content--wide">
+      <div class="modal-header">
+        <h2>Resumen de Income</h2>
+        <button class="modal-close" data-close="modal-income-summary">X</button>
+      </div>
+      <div id="income-summary-body" class="income-summary-body">
+        <!-- Se rellena con JS -->
+      </div>
+      <div class="confirm-actions">
+        <button id="btn-income-confirm" class="btn btn-primary">Confirmar y sumar a créditos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inputs ocultos para subir imágenes -->
+  <input type="file" id="input-gang-image" accept="image/*" style="display:none">
+
+  <!-- MODAL: REGLAS ESPECIALES DE LA CASA -->
+<div id="modal-house-rules" class="modal">
+  <div class="modal-content modal-content--wide">
+    <div class="modal-header">
+      <h2 id="house-rules-title">Reglas de la Casa</h2>
+      <button class="modal-close" data-close="modal-house-rules">X</button>
+    </div>
+    <div id="house-rules-body" class="skill-modal-body">
+      <!-- Se rellena con JS -->
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" data-close="modal-house-rules">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="js/necromunda/data.js"></script>
+  <script src="js/necromunda/weapons.js"></script>
+  <script src="js/necromunda/territories.js"></script>
+  <script src="js/necromunda/territories-ui.js"></script>
+  <script src="js/necromunda/houses/orlock.js"></script>
+  <script src="js/necromunda/houses/escher.js"></script>
+  <script src="js/necromunda/houses/goliath.js"></script>
+  <script src="js/necromunda/houses/delaque.js"></script>
+  <script src="js/necromunda/houses/vansaar.js"></script>
+  <script src="js/necromunda/houses/cawdor.js"></script>
+
+  <script src="js/outlaws/outlaw-rare-chart.js"></script>
+  <script src="js/outlaws/outlaw-weapons.js"></script>
+  <script src="js/outlaws/outlaw-market.js"></script>
+  <script src="js/outlaws/houses/pitslaves.js"></script>
+  <script src="js/outlaws/houses/redemptionists.js"></script>
+
+  <script src="js/core/storage.js"></script>
+
+  <script src="js/fighters.js"></script>
+  <script src="js/advance.js"></script>
+
+  <script src="js/necromunda/market.js"></script>
+  <script src="js/necromunda/rare-market.js"></script>
+  <script src="js/necromunda/glossary.js"></script>
+
+  <script src="js/core/app.js"></script>
+</body>
+</html>
